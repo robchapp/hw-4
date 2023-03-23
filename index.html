@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.313">
+<meta name="generator" content="quarto-1.2.335">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Insert your name here">
 
-<title>Homework 2</title>
+<title>Homework 4</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -107,7 +107,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Homework 2</h1>
+      <h1 class="title">Homework 4</h1>
                       </div>
   </div>
     
@@ -135,6 +135,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#question-1" id="toc-question-1" class="nav-link active" data-scroll-target="#question-1">Question 1</a></li>
   <li><a href="#question-2" id="toc-question-2" class="nav-link" data-scroll-target="#question-2">Question 2</a></li>
   <li><a href="#question-3" id="toc-question-3" class="nav-link" data-scroll-target="#question-3">Question 3</a></li>
+  <li><a href="#question-4" id="toc-question-4" class="nav-link" data-scroll-target="#question-4">Question 4</a></li>
   <li><a href="#appendix" id="toc-appendix" class="nav-link" data-scroll-target="#appendix">Appendix</a></li>
   </ul>
 </nav>
@@ -144,7 +145,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<p><a href="https://github.com/psu-stat380/hw-2">Link to the Github repository</a></p>
+<p><a href="https://github.com/psu-stat380/hw-3">Link to the Github repository</a></p>
 <hr>
 <div class="callout-important callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
@@ -152,7 +153,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Due: Tue, Feb 14, 2023 @ 11:59pm
+Due: Fri, Mar 31, 2023 @ 11:59pm
 </div>
 </div>
 <div class="callout-body-container callout-body" style="font-size: 0.8em;">
@@ -165,14 +166,14 @@ Due: Tue, Feb 14, 2023 @ 11:59pm
 <p>⚠️ Please add your name to the author information in the frontmatter before submitting your assignment ⚠️</p>
 </div>
 </div>
-<p>For this assignment, we will be using the <a href="http://archive.ics.uci.edu/ml/datasets/Abalone">Abalone dataset</a> from the UCI Machine Learning Repository. The dataset consists of physical measurements of abalone (a type of marine snail) and includes information on the age, sex, and size of the abalone.</p>
+<p>For this assignment, we will be using the <a href="https://archive.ics.uci.edu/ml/datasets/wine+quality">Wine Quality</a> dataset from the UCI Machine Learning Repository. The dataset consists of red and white <em>vinho verde</em> wine samples, from the north of Portugal. The goal is to model wine quality based on physicochemical tests</p>
 <p>We will be using the following libraries:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cowplot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br><br><br><br></p>
 <hr>
 <section id="question-1" class="level2">
@@ -183,65 +184,74 @@ Due: Tue, Feb 14, 2023 @ 11:59pm
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-30 points
+50 points
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>EDA using <code>readr</code>, <code>tidyr</code> and <code>ggplot2</code></p>
+<p>Regression with categorical covariate and <span class="math inline">\(t\)</span>-Test</p>
 </div>
 </div>
 <section id="points-1" class="level6">
 <h6 class="anchored" data-anchor-id="points-1">1.1 (5 points)</h6>
-<p>Load the “Abalone” dataset as a tibble called <code>abalone</code> using the URL provided below. The <code>abalone_col_names</code> variable contains a vector of the column names for this dataset (to be consistent with the R naming pattern). Make sure you read the dataset with the provided column names.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"http://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.data"</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>abalone_col_names <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"sex"</span>, </span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"length"</span>, </span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"diameter"</span>, </span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"height"</span>, </span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"whole_weight"</span>, </span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"shucked_weight"</span>, </span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"viscera_weight"</span>, </span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"shell_weight"</span>, </span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">"rings"</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>abalone <span class="ot">&lt;-</span> ... <span class="co"># Insert your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Read the wine quality datasets from the specified URLs and store them in data frames <code>df1</code> and <code>df2</code>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>url1 <span class="ot">&lt;-</span> <span class="st">"https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-white.csv"</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>url2 <span class="ot">&lt;-</span> <span class="st">"https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-red.csv"</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> ... <span class="co"># Insert your code here</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> ... <span class="co"># Insert your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 <section id="points-2" class="level6">
 <h6 class="anchored" data-anchor-id="points-2">1.2 (5 points)</h6>
-<p>Remove missing values and <code>NA</code>s from the dataset and store the cleaned data in a tibble called <code>df</code>. How many rows were dropped?</p>
+<p>Perform the following tasks to prepare the data frame <code>df</code> for analysis:</p>
+<ol type="1">
+<li>Combine the two data frames into a single data frame <code>df</code>, adding a new column called <code>type</code> to indicate whether each row corresponds to white or red wine.</li>
+<li>Rename the columns of <code>df</code> to replace spaces with underscores</li>
+<li>Remove the columns <code>fixed_acidity</code> and <code>free_sulfur_dioxide</code></li>
+<li>Convert the <code>type</code> column to a factor</li>
+<li>Remove rows (if any) with missing values.</li>
+</ol>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> ... <span class="co"># Insert your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Your output to <code>R dim(df)</code> should be</p>
+<pre><code>[1] 6497   11</code></pre>
 <hr>
 </section>
-<section id="points-3" class="level5">
-<h5 class="anchored" data-anchor-id="points-3">1.3 (5 points)</h5>
-<p>Plot histograms of all the quantitative variables in a <strong>single plot</strong> <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>... <span class="co"># Insert your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="points-3" class="level6">
+<h6 class="anchored" data-anchor-id="points-3">1.3 (20 points)</h6>
+<p>Recall from STAT 200, the method to compute the <span class="math inline">\(t\)</span> statistic for the the difference in means (with the equal variance assumption)</p>
+<ol type="1">
+<li><p>Using <code>df</code> compute the mean of <code>quality</code> for red and white wine separately, and then store the difference in means as a variable called <code>diff_mean</code>.</p></li>
+<li><p>Compute the pooled sample variance and store the value as a variable called <code>sp_squared</code>.</p></li>
+<li><p>Using <code>sp_squared</code> and <code>diff_mean</code>, compute the <span class="math inline">\(t\)</span> Statistic, and store its value in a variable called <code>t1</code>.</p></li>
+</ol>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>diff_mean <span class="ot">&lt;-</span> ... <span class="co"># Insert your code here</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>sp <span class="ot">&lt;-</span>  ... <span class="co"># Insert your code here</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>t1 <span class="ot">&lt;-</span>  ... <span class="co"># Insert your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
-<section id="points-4" class="level5">
-<h5 class="anchored" data-anchor-id="points-4">1.4 (5 points)</h5>
-<p>Create a boxplot of <code>length</code> for each <code>sex</code> and create a violin-plot of of <code>diameter</code> for each <code>sex</code>. Are there any notable differences in the physical appearences of abalones based on your analysis here?</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>... <span class="co"># Insert your code for boxplot here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>... <span class="co"># Insert your code for violinplot here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="points-4" class="level6">
+<h6 class="anchored" data-anchor-id="points-4">1.4 (10 points)</h6>
+<p>Equivalently, R has a function called <code>t.test()</code> which enables you to perform a two-sample <span class="math inline">\(t\)</span>-Test without having to compute the pooled variance and difference in means.</p>
+<p>Perform a two-sample t-test to compare the quality of white and red wines using the <code>t.test()</code> function with the setting <code>var.equal=TRUE</code>. Store the t-statistic in <code>t2</code>.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>t_test <span class="ot">&lt;-</span> <span class="fu">t.test</span>(...) <span class="co"># Insert your code here</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>t2 <span class="ot">&lt;-</span> ... <span class="co"># Insert your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
+</section>
 <section id="points-5" class="level6">
 <h6 class="anchored" data-anchor-id="points-5">1.5 (5 points)</h6>
-<p>Create a scatter plot of <code>length</code> and <code>diameter</code>, and modify the shape and color of the points based on the <code>sex</code> variable. Change the size of each point based on the <code>shell_wight</code> value for each observation. Are there any notable anomalies in the dataset?</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>... <span class="co"># Insert your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Fit a linear regression model to predict <code>quality</code> from <code>type</code> using the <code>lm()</code> function, and extract the <span class="math inline">\(t\)</span>-statistic for the <code>type</code> coefficient from the model summary. Store this <span class="math inline">\(t\)</span>-statistic in <code>t3</code>.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(...) <span class="co"># Insert your here</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>t3 <span class="ot">&lt;-</span> ... <span class="co"># Insert your here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 <section id="points-6" class="level6">
 <h6 class="anchored" data-anchor-id="points-6">1.6 (5 points)</h6>
-<p>For each <code>sex</code>, create separate scatter plots of <code>length</code> and <code>diameter</code>. For each plot, also add a <strong>linear</strong> trendline to illustrate the relationship between the variables. Use the <code>facet_wrap()</code> function in R for this, and ensure that the plots are vertically stacked <strong>not</strong> horizontally. You should end up with a plot that looks like this: <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>... <span class="co"># Insert your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Print a vector containing the values of <code>t1</code>, <code>t2</code>, and <code>t3</code>. What can you conclude from this? Why?</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(t1, t2, t3) <span class="co"># Insert your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br><br><br><br> <br><br><br><br></p>
 <hr>
-</section>
 </section>
 </section>
 <section id="question-2" class="level2">
@@ -252,51 +262,37 @@ Due: Tue, Feb 14, 2023 @ 11:59pm
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-40 points
+25 points
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>More advanced analyses using <code>dplyr</code>, <code>purrrr</code> and <code>ggplot2</code></p>
+<p>Collinearity</p>
 </div>
 </div>
 <hr>
 <section id="points-8" class="level6">
-<h6 class="anchored" data-anchor-id="points-8">2.1 (10 points)</h6>
-<p>Filter the data to only include abalone with a length of at least <span class="math inline">\(0.5\)</span> meters. Group the data by <code>sex</code> and calculate the mean of each variable for each group. Create a bar plot to visualize the mean values for each variable by <code>sex</code>.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> ... <span class="co"># Insert your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<h6 class="anchored" data-anchor-id="points-8">2.1 (5 points)</h6>
+<p>Fit a linear regression model with all predictors against the response variable <code>quality</code>. Use the <code>broom::tidy()</code> function to print a summary of the fitted model. What can we conclude from the model summary?</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>... <span class="co"># Insert your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 <section id="points-9" class="level6">
-<h6 class="anchored" data-anchor-id="points-9">2.2 (15 points)</h6>
-<p>Implement the following in a <strong>single command</strong>:</p>
-<ol type="1">
-<li>Temporarily create a new variable called <code>num_rings</code> which takes a value of:</li>
-</ol>
-<ul>
-<li><code>"low"</code> if <code>rings &lt; 10</code></li>
-<li><code>"high"</code> if <code>rings &gt; 20</code>, and</li>
-<li><code>"med"</code> otherwise</li>
-</ul>
-<ol start="2" type="1">
-<li><p>Group <code>df</code> by this new variable and <code>sex</code> and compute <code>avg_weight</code> as the average of the <code>whole_weight + shucked_weight + viscera_weight + shell_weight</code> for each combination of <code>num_rings</code> and <code>sex</code>.</p></li>
-<li><p>Use the <code>geom_tile()</code> function to create a tile plot of <code>num_rings</code> vs <code>sex</code> with the color indicating of each tile indicating the <code>avg_weight</code> value.</p></li>
-</ol>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> ... <span class="co"># Insert your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<h6 class="anchored" data-anchor-id="points-9">2.2 (10 points)</h6>
+<p>Fit two <strong>simple</strong> linear regression models using <code>lm()</code>: one with only <code>citric_acid</code> as the predictor, and another with only <code>total_sulfur_dioxide</code> as the predictor. In both models, use <code>quality</code> as the response variable. How does your model summary compare to the summary from the previous question?</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>model_citric <span class="ot">&lt;-</span> ... <span class="co"># Insert your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>model_sulfur <span class="ot">&lt;-</span> ... <span class="co"># Insert your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 <section id="points-10" class="level6">
 <h6 class="anchored" data-anchor-id="points-10">2.3 (5 points)</h6>
-<p>Make a table of the pairwise correlations between all the numeric variables rounded to 2 decimal points. Your final answer should look like this <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> ... <span class="co"># Insert your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Visualize the correlation matrix of all numeric columns in <code>df</code> using <code>corrplot()</code></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> ... <span class="co"># Insert your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 <section id="points-11" class="level6">
-<h6 class="anchored" data-anchor-id="points-11">2.4 (10 points)</h6>
-<p>Use the <code>map2()</code> function from the <code>purrr</code> package to create a scatter plot for each <em>quantitative</em> variable against the number of <code>rings</code> variable. Color the points based on the <code>sex</code> of each abalone. You can use the <code>cowplot::plot_grid()</code> function to finally make the following grid of plots.</p>
-<div>
-<p><img src="images/plot_grid.png" class="img-fluid"></p>
-</div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>... <span class="co"># Insert your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<h6 class="anchored" data-anchor-id="points-11">2.4 (5 points)</h6>
+<p>Compute the variance inflation factor (VIF) for each predictor in the full model using <code>vif()</code> function. What can we conclude from this?</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>... <span class="co"># Insert your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br><br><br><br> <br><br><br><br></p>
 <hr>
 </section>
@@ -309,45 +305,160 @@ Due: Tue, Feb 14, 2023 @ 11:59pm
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-30 points
+40 points
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Linear regression using <code>lm</code></p>
+<p>Variable selection</p>
 </div>
 </div>
 <hr>
 <section id="points-13" class="level6">
-<h6 class="anchored" data-anchor-id="points-13">3.1 (10 points)</h6>
-<p>Perform a simple linear regression with <code>diameter</code> as the covariate and <code>height</code> as the response. Interpret the model coefficients and their significance values.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>... <span class="co"># Insert your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<h6 class="anchored" data-anchor-id="points-13">3.1 (5 points)</h6>
+<p>Run a backward stepwise regression using a <code>full_model</code> object as the starting model. Store the final formula in an object called <code>backward_formula</code> using the built-in <code>formula()</code> function in R</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>... <span class="co"># Insert your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 <section id="points-14" class="level6">
-<h6 class="anchored" data-anchor-id="points-14">3.2 (10 points)</h6>
-<p>Make a scatterplot of <code>height</code> vs <code>diameter</code> and plot the regression line in <code>color="red"</code>. You can use the base <code>plot()</code> function in R for this. Is the linear model an appropriate fit for this relationship? Explain.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>... <span class="co"># Insert your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<h6 class="anchored" data-anchor-id="points-14">3.2 (5 points)</h6>
+<p>Run a forward stepwise regression using a <code>null_model</code> object as the starting model. Store the final formula in an object called <code>forward_formula</code> using the built-in <code>formula()</code> function in R</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>... <span class="co"># Insert your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 <section id="points-15" class="level6">
 <h6 class="anchored" data-anchor-id="points-15">3.3 (10 points)</h6>
-<p>Suppose we have collected observations for “new” abalones with <code>new_diameter</code> values given below. What is the expected value of their <code>height</code> based on your model above? Plot these new observations along with your predictions in your plot from earlier using <code>color="violet"</code></p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>new_diameters <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fl">0.15218946</span>,</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fl">0.48361548</span>,</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fl">0.58095513</span>,</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fl">0.07603687</span>,</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fl">0.50234599</span>,</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fl">0.83462092</span>,</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fl">0.95681938</span>,</span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fl">0.92906875</span>,</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="fl">0.94245437</span>,</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  <span class="fl">0.01209518</span></span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>... <span class="co"># Insert your code here. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol type="1">
+<li><p>Create a <code>y</code> vector that contains the response variable (<code>quality</code>) from the <code>df</code> dataframe.</p></li>
+<li><p>Create a design matrix <code>X</code> for the <code>full_model</code> object using the <code>make_model_matrix()</code> function provided in the Appendix.</p></li>
+<li><p>Then, use the <code>cv.glmnet()</code> function to perform LASSO and Ridge regression with <code>X</code> and <code>y</code>.</p></li>
+</ol>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>... <span class="co"># Insert your code here. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Create side-by-side plots of the ridge and LASSO regression results. Interpret your main findings.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>... <span class="co"># Insert your code here. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+<section id="points-16" class="level6">
+<h6 class="anchored" data-anchor-id="points-16">3.4 (5 points)</h6>
+<p>Print the coefficient values for LASSO regression at the <code>lambda.1se</code> value? What are the variables selected by LASSO?</p>
+<p>Store the variable names with non-zero coefficients in <code>lasso_vars</code>, and create a formula object called <code>lasso_formula</code> using the <code>make_formula()</code> function provided in the Appendix.</p>
+<hr>
+</section>
+<section id="points-17" class="level6">
+<h6 class="anchored" data-anchor-id="points-17">3.5 (5 points)</h6>
+<p>Print the coefficient values for ridge regression at the <code>lambda.1se</code> value? What are the variables selected here?</p>
+<p>Store the variable names with non-zero coefficients in <code>ridge_vars</code>, and create a formula object called <code>ridge_formula</code> using the <code>make_formula()</code> function provided in the Appendix.</p>
+<hr>
+</section>
+<section id="points-18" class="level6">
+<h6 class="anchored" data-anchor-id="points-18">3.6 (10 points)</h6>
+<p>What is the difference between stepwise selection, LASSO and ridge based on you analyses above?</p>
+<p><br><br><br><br> <br><br><br><br></p>
+<hr>
+</section>
+</section>
+<section id="question-4" class="level2">
+<h2 class="anchored" data-anchor-id="question-4">Question 4</h2>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+70 points
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Variable selection</p>
+</div>
+</div>
+<hr>
+<section id="points-20" class="level6">
+<h6 class="anchored" data-anchor-id="points-20">4.1 (5 points)</h6>
+<p>Excluding <code>quality</code> from <code>df</code> we have <span class="math inline">\(10\)</span> possible predictors as the covariates. How many different models can we create using any subset of these <span class="math inline">\(10\)</span> coavriates as possible predictors? Justify your answer.</p>
+<hr>
+</section>
+<section id="points-21" class="level6">
+<h6 class="anchored" data-anchor-id="points-21">4.2 (20 points)</h6>
+<p>Store the names of the predictor variables (all columns except <code>quality</code>) in an object called <code>x_vars</code>.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>x_vars <span class="ot">&lt;-</span> <span class="fu">colnames</span>(df <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>quality))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Use:</p>
+<ul>
+<li>the <code>combn()</code> function (built-in R function) and</li>
+<li>the <code>make_formula()</code> (provided in the Appendix)</li>
+</ul>
+<p>to <strong>generate all possible linear regression formulas</strong> using the variables in <code>x_vars</code>. This is most optimally achieved using the <code>map()</code> function from the <code>purrr</code> package.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>formulas <span class="ot">&lt;-</span> <span class="fu">map</span>(</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(x_vars),</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  \(x){</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    vars <span class="ot">&lt;-</span> <span class="fu">combn</span>(...) <span class="co"># Insert code here</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">map</span>(vars, ...) <span class="co"># Insert code here</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> <span class="fu">unlist</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If your code is right the following command should return something along the lines of:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(formulas, <span class="dv">4</span>) <span class="sc">%&gt;%</span> <span class="fu">as.character</span>()</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Output:</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] "quality ~ volatile_acidity + residual_sugar + density + pH + alcohol"                                                 </span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># [2] "quality ~ citric_acid"                                                                                                </span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co"># [3] "quality ~ volatile_acidity + citric_acid + residual_sugar + total_sulfur_dioxide + density + pH + sulphates + alcohol"</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co"># [4] "quality ~ citric_acid + chlorides + total_sulfur_dioxide + pH + alcohol + type"  </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+<section id="points-22" class="level6">
+<h6 class="anchored" data-anchor-id="points-22">4.3 (10 points)</h6>
+<p>Use <code>map()</code> and <code>lm()</code> to fit a linear regression model to each formula in <code>formulas</code>, using <code>df</code> as the data source. Use <code>broom::glance()</code> to extract the model summary statistics, and bind them together into a single tibble of summaries using the <code>bind_rows()</code> function from <code>dplyr</code>.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>models <span class="ot">&lt;-</span> <span class="fu">map</span>(formulas, ...) <span class="co"># Insert your code here</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>summaries <span class="ot">&lt;-</span> <span class="fu">map</span>(models, ...) <span class="co"># Insert your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+<section id="points-23" class="level6">
+<h6 class="anchored" data-anchor-id="points-23">4.4 (5 points)</h6>
+<p>Extract the <code>adj.r.squared</code> values from <code>summaries</code> and use them to identify the formula with the <em><strong>highest</strong></em> adjusted R-squared value.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>... <span class="co"># Insert your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Store resulting formula as a variable called <code>rsq_formula</code>.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>rsq_formula <span class="ot">&lt;-</span> ... <span class="co"># Insert your code</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+<section id="points-24" class="level6">
+<h6 class="anchored" data-anchor-id="points-24">4.5 (5 points)</h6>
+<p>Extract the <code>AIC</code> values from <code>summaries</code> and use them to identify the formula with the <strong><em>lowest</em></strong> AIC value.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>... <span class="co"># Insert your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Store resulting formula as a variable called <code>aic_formula</code>.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>aic_formula <span class="ot">&lt;-</span> ... <span class="co"># Insert your code</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+<section id="points-25" class="level6">
+<h6 class="anchored" data-anchor-id="points-25">4.6 (15 points)</h6>
+<p>Combine all formulas shortlisted into a single vector called <code>final_formulas</code>.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>null_formula <span class="ot">&lt;-</span> <span class="fu">formula</span>(null_model)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>full_formula <span class="ot">&lt;-</span> <span class="fu">formula</span>(full_model)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>final_formulas <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  null_formula,</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  full_formula,</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  backward_formula,</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  forward_formula,</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  lasso_formula, </span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  ridge_formula,</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  rsq_formula,</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>  aic_formula</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li><p>Are <code>aic_formula</code> and <code>rsq_formula</code> the same? How do they differ from the formulas shortlisted in question 3?</p></li>
+<li><p>Which of these is more reliable? Why?</p></li>
+<li><p>If we had a dataset with <span class="math inline">\(10,000\)</span> columns, which of these methods would you consider for your analyses? Why?</p></li>
+</ul>
+<hr>
+</section>
+<section id="points-26" class="level6">
+<h6 class="anchored" data-anchor-id="points-26">4.7 (10 points)</h6>
+<p>Use <code>map()</code> and <code>glance()</code> to extract the <code>sigma, adj.r.squared, AIC, df</code>, and <code>p.value</code> statistics for each model obtained from <code>final_formulas</code>. Bind them together into a single data frame <code>summary_table</code>. Summarize your main findings.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>summary_table <span class="ot">&lt;-</span> <span class="fu">map</span>(</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  final_formulas, </span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  \(x) ... <span class="co"># Insert your code here</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> <span class="fu">bind_rows</span>()</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>summary_table <span class="sc">%&gt;%</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="hidden" data-unless-format="pdf">
 <div style="page-break-after: always;"></div>
 </div>
@@ -357,8 +468,37 @@ Due: Tue, Feb 14, 2023 @ 11:59pm
 </section>
 <section id="appendix" class="level1">
 <h1>Appendix</h1>
+<section id="convenience-function-for-creating-a-formula-object" class="level4">
+<h4 class="anchored" data-anchor-id="convenience-function-for-creating-a-formula-object">Convenience function for creating a formula object</h4>
+<p>The following function which takes as input a vector of column names <code>x</code> and outputs a <code>formula</code> object with <code>quality</code> as the response variable and the columns of <code>x</code> as the covariates.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>make_formula <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.formula</span>(</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="st">"quality ~ "</span>, <span class="fu">paste</span>(x, <span class="at">collapse =</span> <span class="st">" + "</span>))</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="co"># For example the following code will</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="co"># result in a formula object</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="co"># "quality ~ a + b + c"</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="fu">make_formula</span>(<span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="convenience-function-for-glmnet" class="level4">
+<h4 class="anchored" data-anchor-id="convenience-function-for-glmnet">Convenience function for <code>glmnet</code></h4>
+<p>The <code>make_model_matrix</code> function below takes a <code>formula</code> as input and outputs a <strong>rescaled</strong> model matrix <code>X</code> in a format amenable for <code>glmnet()</code></p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>make_model_matrix <span class="ot">&lt;-</span> <span class="cf">function</span>(formula){</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(formula, df)[, <span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  cnames <span class="ot">&lt;-</span> <span class="fu">colnames</span>(X)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(X)){</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="sc">!</span>cnames[i] <span class="sc">==</span> <span class="st">"typewhite"</span>){</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>      X[, i] <span class="ot">&lt;-</span> <span class="fu">scale</span>(X[, i])</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">colnames</span>(X)[i] <span class="ot">&lt;-</span> <span class="st">"type"</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(X)</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -367,166 +507,44 @@ Session Information
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Print your <code>R</code> session information using the following command</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>R version 4.2.2 (2022-10-31)
-Platform: x86_64-apple-darwin22.1.0 (64-bit)
-Running under: macOS Ventura 13.2
+Platform: x86_64-conda-linux-gnu (64-bit)
+Running under: Storage
 
 Matrix products: default
-BLAS:   /usr/local/Cellar/openblas/0.3.21/lib/libopenblasp-r0.3.21.dylib
-LAPACK: /usr/local/Cellar/r/4.2.2_1/lib/R/lib/libRlapack.dylib
+BLAS/LAPACK: /gpfs/group/hvt5139/default/tools/mambaforge/lib/libopenblasp-r0.3.21.so
 
 locale:
-[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
 
 attached base packages:
 [1] stats     graphics  grDevices datasets  utils     methods   base     
 
 loaded via a namespace (and not attached):
- [1] digest_0.6.31   lifecycle_1.0.3 jsonlite_1.8.4  magrittr_2.0.3 
- [5] evaluate_0.20   rlang_1.0.6     stringi_1.7.12  cli_3.6.0      
- [9] renv_0.16.0-53  vctrs_0.5.1     rmarkdown_2.20  tools_4.2.2    
-[13] stringr_1.5.0   glue_1.6.2      xfun_0.36       yaml_2.3.6     
-[17] fastmap_1.1.0   compiler_4.2.2  htmltools_0.5.4 knitr_1.41     </code></pre>
+ [1] compiler_4.2.2  fastmap_1.1.0   cli_3.6.0       htmltools_0.5.4
+ [5] tools_4.2.2     yaml_2.3.7      rmarkdown_2.20  knitr_1.42     
+ [9] xfun_0.37       digest_0.6.31   jsonlite_1.8.4  rlang_1.0.6    
+[13] renv_0.16.0-53  evaluate_0.20  </code></pre>
 </div>
 </div>
 </div>
 </div>
-</div>
-<div>
-<table class="table">
-<colgroup>
-<col style="width: 15%">
-<col style="width: 7%">
-<col style="width: 9%">
-<col style="width: 7%">
-<col style="width: 13%">
-<col style="width: 15%">
-<col style="width: 15%">
-<col style="width: 13%">
-<col style="width: 6%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">length</th>
-<th style="text-align: right;">diameter</th>
-<th style="text-align: right;">height</th>
-<th style="text-align: right;">whole_weight</th>
-<th style="text-align: right;">shucked_weight</th>
-<th style="text-align: right;">viscera_weight</th>
-<th style="text-align: right;">shell_weight</th>
-<th style="text-align: right;">rings</th>
-<th style="text-align: right;"></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">length</td>
-<td style="text-align: right;">1.00</td>
-<td style="text-align: right;">0.99</td>
-<td style="text-align: right;">0.83</td>
-<td style="text-align: right;">0.93</td>
-<td style="text-align: right;">0.90</td>
-<td style="text-align: right;">0.90</td>
-<td style="text-align: right;">0.90</td>
-<td style="text-align: right;">0.56</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">diameter</td>
-<td style="text-align: right;">0.99</td>
-<td style="text-align: right;">1.00</td>
-<td style="text-align: right;">0.83</td>
-<td style="text-align: right;">0.93</td>
-<td style="text-align: right;">0.89</td>
-<td style="text-align: right;">0.90</td>
-<td style="text-align: right;">0.91</td>
-<td style="text-align: right;">0.57</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">height</td>
-<td style="text-align: right;">0.83</td>
-<td style="text-align: right;">0.83</td>
-<td style="text-align: right;">1.00</td>
-<td style="text-align: right;">0.82</td>
-<td style="text-align: right;">0.77</td>
-<td style="text-align: right;">0.80</td>
-<td style="text-align: right;">0.82</td>
-<td style="text-align: right;">0.56</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">whole_weight</td>
-<td style="text-align: right;">0.93</td>
-<td style="text-align: right;">0.93</td>
-<td style="text-align: right;">0.82</td>
-<td style="text-align: right;">1.00</td>
-<td style="text-align: right;">0.97</td>
-<td style="text-align: right;">0.97</td>
-<td style="text-align: right;">0.96</td>
-<td style="text-align: right;">0.54</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">shucked_weight</td>
-<td style="text-align: right;">0.90</td>
-<td style="text-align: right;">0.89</td>
-<td style="text-align: right;">0.77</td>
-<td style="text-align: right;">0.97</td>
-<td style="text-align: right;">1.00</td>
-<td style="text-align: right;">0.93</td>
-<td style="text-align: right;">0.88</td>
-<td style="text-align: right;">0.42</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">viscera_weight</td>
-<td style="text-align: right;">0.90</td>
-<td style="text-align: right;">0.90</td>
-<td style="text-align: right;">0.80</td>
-<td style="text-align: right;">0.97</td>
-<td style="text-align: right;">0.93</td>
-<td style="text-align: right;">1.00</td>
-<td style="text-align: right;">0.91</td>
-<td style="text-align: right;">0.50</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">shell_weight</td>
-<td style="text-align: right;">0.90</td>
-<td style="text-align: right;">0.91</td>
-<td style="text-align: right;">0.82</td>
-<td style="text-align: right;">0.96</td>
-<td style="text-align: right;">0.88</td>
-<td style="text-align: right;">0.91</td>
-<td style="text-align: right;">1.00</td>
-<td style="text-align: right;">0.63</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">rings</td>
-<td style="text-align: right;">0.56</td>
-<td style="text-align: right;">0.57</td>
-<td style="text-align: right;">0.56</td>
-<td style="text-align: right;">0.54</td>
-<td style="text-align: right;">0.42</td>
-<td style="text-align: right;">0.50</td>
-<td style="text-align: right;">0.63</td>
-<td style="text-align: right;">1.00</td>
-</tr>
-</tbody>
-</table>
 </div>
 </section>
+</section>
 
-
-<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
-
-<ol>
-<li id="fn1"><p>You can use the <code>facet_wrap()</code> function for this. Have a look at its documentation using the help console in R<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>Plot example for 1.6<br> <span><img src="images/lines.png" class="img-fluid" style="height: 5em;"></span><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>Table for 2.3<br><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section></div></main>
+</main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
