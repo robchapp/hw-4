@@ -1,11 +1,11 @@
 ---
 title: "Homework 4"
-author: "[Insert your name here]{style='background-color: yellow;'}"
+author: "[Robert Chappell]{style='background-color: yellow;'}"
 toc: true
 title-block-banner: true
 title-block-style: default
-format: html
-# format: pdf
+#format: html
+format: pdf
 ---
 
 [Link to the Github repository](https://github.com/psu-stat380/hw-4)
@@ -27,7 +27,7 @@ Please read the instructions carefully before submitting your assignment.
 
 We will be using the following libraries:
 
-```R
+```{R}
 packages <- c(
   "dplyr", 
   "readr", 
@@ -68,44 +68,87 @@ $$
 \frac{d}{dx}g(x, y), \quad \text{and} \quad \frac{d}{dy}g(x, y).
 $$
 
+Using calculus the derivatives are:
+
+$$
+2(x-3), \quad \text{and} \quad 2(y-4)
+$$
+
+
 Using your answer from above, what is the answer to
 $$
 \frac{d}{dx}g(x, y) \Bigg|_{(x=3, y=4)} \quad \text{and} \quad \frac{d}{dy}g(x, y) \Bigg|_{(x=3, y=4)} ?
 $$
 
+Using my answers from above both would be equal to zero.
+
 Define $g(x, y)$ as a function in R, compute the gradient of $g(x, y)$ with respect to $x=3$ and $y=4$. Does the answer match what you expected?
+
+```{R}
+g <- function(x, y) {
+  return((x-3)^2 + (y-4)^2)
+}
+
+x <- torch_tensor(3, requires_grad = TRUE)
+y <- torch_tensor(4, requires_grad = TRUE)
+z <- g(x, y)
+z$backward()
+
+print(x$grad)
+print(y$grad)
+```
+
+These answers are what was expected and calculated using calculus.
 
 ---
 
 ###### 1.2 (10 points)
 
 
-$$\newcommand{\u}{\boldsymbol{u}}\newcommand{\v}{\boldsymbol{v}}$$
+$$\newcommand{u}{\boldsymbol{u}}\newcommand{\v}{\boldsymbol{v}}$$
 
-Consider $h(\u, \v)$ given by
+Consider $h(u, v)$ given by
 $$
-h(\u, \v) = (\u \cdot \v)^3,
+h(u,v) = (u \cdot v)^3,
 $$
-where $\u \cdot \v$ denotes the dot product of two vectors, i.e., $\u \cdot \v = \sum_{i=1}^n u_i v_i.$
+where $u \cdot v$ denotes the dot product of two vectors, i.e., $u \cdot v = \sum_{i=1}^n u_i v_i.$
 
 Using elementary calculus derive the expressions for the gradients
 
 $$
+\nabla_{u} h(u, \v) = 3 (u \cdot \v)^2 \cdot \v, \quad \nabla_{\v} h(u, \v) = 3 (u \cdot \v)^2 \cdot u
+$$
+
+$$
 \begin{aligned}
-\nabla_\u h(\u, \v) &= \Bigg(\frac{d}{du_1}h(\u, \v), \frac{d}{du_2}h(\u, \v), \dots, \frac{d}{du_n}h(\u, \v)\Bigg)
+\nabla_u h(u, \v) &= \Bigg(\frac{d}{du_1}h(u, \v), \frac{d}{du_2}h(u, \v), \dots, \frac{d}{du_n}h(u, \v)\Bigg)
 \end{aligned}
 $$
 
-Using your answer from above, what is the answer to $\nabla_\u h(\u, \v)$ when $n=10$ and
+Using your answer from above, what is the answer to $\nabla_u h(u, \v)$ when $n=10$ and
 
 $$
 \begin{aligned}
-\u = (-1, +1, -1, +1, -1, +1, -1, +1, -1, +1)\\
+u = (-1, +1, -1, +1, -1, +1, -1, +1, -1, +1)\\
 \v = (-1, -1, -1, -1, -1, +1, +1, +1, +1, +1)
 \end{aligned}
 $$
+The result would be 5 12 and 5 -12.
+The resulting answer is zero.
 
-Define $h(\u, \v)$ as a function in R, initialize the two vectors $\u$ and $\v$ as `torch_tensor`s. Compute the gradient of $h(\u, \v)$ with respect to $\u$. Does the answer match what you expected?
+Define $h(u, \v)$ as a function in R, initialize the two vectors $u$ and $\v$ as `torch_tensor`s. Compute the gradient of $h(u, \v)$ with respect to $u$. Does the answer match what you expected?
+
+```{R} 
+h <- function(u, v) {
+  (torch_dot(u, v))^3
+}
+u <- torch_tensor(c(-1, 1, -1, 1, -1, 1, -1, 1, -1, 1), requires_grad = TRUE)
+v <- torch_tensor(c(-1, -1, -1, -1, -1, 1, 1, 1, 1, 1))
+z <- h(u, v)
+z$backward()
+grad_u <- u$grad
+print(grad_u)
+```
 
 ---
 
@@ -121,8 +164,23 @@ $$
 f'(z_0) = \frac{df}{dz}\Bigg|_{z=z_0}
 $$
 and evaluate $f'(z_0)$ when $z_0 = -3.5$.
+The derivative is:
+$$
+4z^3-12z-3
+$$
+
+Subbing in -3.5 gives -132.5
 
 Define $f(z)$ as a function in R, and using the `torch` library compute $f'(-3.5)$. 
+
+```{R}
+f <- function(z) z^4 - 6*z^2 - 3*z + 4
+z <- torch_tensor(-3.5, requires_grad = TRUE)
+result <- f(z)
+result$backward()
+grad <- z$grad
+print(grad)
+```
 
 
 ---
@@ -135,6 +193,22 @@ For the same function $f$, initialize $z[1] = -3.5$, and perform $n=100$ iterati
 
 Plot the curve $f$ and add taking $\eta = 0.02$, add the points $\{z_0, z_1, z_2, \dots z_{100}\}$ obtained using gradient descent to the plot. What do you observe?
 
+```{R}
+n=100
+z <- -3.5
+eta = 0.02
+
+z_vals <- numeric(n+1)
+z_vals[1] <- z
+for (i in 1:n) {
+  z <- z - eta * (4*z^3 - 12*z - 3)
+  z_vals[i+1] <- z
+}
+curve(f, from = -3.6, to = 3.6, xlab = "z", ylab = "f(z)")
+points(z_vals, f(z_vals))
+```
+
+
 ---
 
 ###### 1.5 (5 points)
@@ -143,7 +217,22 @@ Plot the curve $f$ and add taking $\eta = 0.02$, add the points $\{z_0, z_1, z_2
 Redo the same analysis as **Question 1.4**, but this time using $\eta = 0.03$. What do you observe? What can you conclude from this analysis
 
 
+```{R}
+n=100
+z <- -3.5
+eta = 0.03
 
+z_vals <- numeric(n+1)
+z_vals[1] <- z
+for (i in 1:n) {
+  z <- z - eta * (4*z^3 - 12*z - 3)
+  z_vals[i+1] <- z
+}
+curve(f, from = -3.6, to = 3.6, xlab = "z", ylab = "f(z)")
+points(z_vals, f(z_vals))
+```
+
+you can see the 0.01 more on the learning curve has a significant result on the points. It almost made a total change on where the points are on the graph.
 
 <br><br><br><br>
 <br><br><br><br>
@@ -164,11 +253,27 @@ For this question we will use the **Titanic** dataset from the Stanford data arc
 
 Read the data from the following URL as a tibble in R. Preprocess the data such that the variables are of the right data type, e.g., binary variables are encoded as factors, and convert all column names to lower case for consistency. Let's also rename the response variable `Survival` to `y` for convenience.
 
-```R
+```{R}
 url <- "https://web.stanford.edu/class/archive/cs/cs109/cs109.1166/stuff/titanic.csv"
 
-df <- ... # Insert your code here
+df <- read_csv(url, col_types = cols(
+    Survived = col_factor(),
+    Pclass = col_factor(),
+    Name = col_skip(),
+    Sex = col_factor(),
+    Age = col_double(),
+    Siblings.Spouses.Aboard = col_double(),
+    Parents.Children.Aboard = col_double(),
+    Fare = col_double(),
+    Embarked = col_factor()
+  )) %>%
+  rename(y = Survived)%>%
+  rename(parents.children.aboard = 'Parents/Children Aboard')%>%
+  rename(siblings.spouses.aboard = 'Siblings/Spouses Aboard')
+
+names(df) <- tolower(names(df))
 ```
+
 
 ---
 
@@ -176,8 +281,11 @@ df <- ... # Insert your code here
 
 Visualize the correlation matrix of all numeric columns in `df` using `corrplot()`
 
-```R
-df %>% ... # Insert your code here
+```{R}
+df %>%
+  select_if(is.numeric)%>%
+  cor()%>%
+  corrplot(type = 'upper', method = 'color')
 ```
 
 
@@ -196,8 +304,9 @@ Fit a logistic regression model to predict the probability of surviving the tita
 * `# parents`
 
 
-```R
-full_model <- ... # Insert your code here
+```{R}
+full_model <- glm(y ~ pclass + sex + age + parents.children.aboard + siblings.spouses.aboard + fare, data = df, family = binomial)
+
 summary(full_model)
 ```
 
@@ -211,6 +320,12 @@ Provide an interpretation for the slope and intercept terms estimated in `full_m
 ## 
 Recall the definition of logistic regression from the lecture notes, and also recall how we interpreted the slope in the linear regression model (particularly when the covariate was categorical).
 :::
+
+In the model, the intercept term corresponds to the log-odds of survival in the titanic when all covariates are equal to zero. The intercept is -0.997, the log-odds is equal to the natural logarithm of the odds of survival, so when all covariates are equal to zero, the odds of survival in the titanic are exp(-0.997) = 0.368.
+
+For categorical covariates the slope terms correspond to the log-odds ratios of survival for each category, compared to the reference category. To obtain the odds ratio for females, we exponentiate the slope term. exp(2.757) = 15.720. Therefore, the odds of survival for females are 15.720 times higher than the odds of survival for males.
+
+For the other continuous variables the slope is the change in the log-odds ratios of survival. You exponentiate the slope. For example with the variable age, to obtain the OR you exponentiate the slope term. exp(-0.043) = 0.958. So the odds of survival decrease by 4.2% for each one year increase in age
 
 
 <br><br><br><br>
@@ -237,16 +352,16 @@ Complete the following function `overview` which takes in two categorical vector
 * The false positive rate, and
 * The false negative rate
 
-```R
+```{R}
 overview <- function(predicted, expected){
-    accuracy <- ... # Insert your code here
-    error <- ... # Insert your code here
-    total_false_positives <- ... # Insert your code here
-    total_true_positives <- ... # Insert your code here
-    total_false_negatives <- ... # Insert your code here
-    total_true_negatives <- ... # Insert your code here
-    false_positive_rate <- ... # Insert your code here
-    false_negative_rate <- ... # Insert your code here
+    accuracy <- sum(predicted == expected) / length(expected)
+    error <- 1 - accuracy
+    total_false_positives <- sum(predicted == 1 & expected == 0)
+    total_true_positives <- sum(predicted == 1 & expected == 1)
+    total_false_negatives <- sum(predicted == 0 & expected == 1)
+    total_true_negatives <- sum(predicted == 0 & expected == 0)
+    false_positive_rate <- total_false_positives / (total_false_positives + total_true_negatives)
+    false_negative_rate <- total_false_negatives / (total_false_negatives + total_true_positives)
     return(
         data.frame(
             accuracy = accuracy, 
@@ -260,7 +375,7 @@ overview <- function(predicted, expected){
 
 You can check if your function is doing what it's supposed to do by evaluating
 
-```R
+```{R}
 overview(df$y, df$y)
 ```
 and making sure that the accuracy is $100\%$ while the errors are $0\%$.
@@ -268,10 +383,13 @@ and making sure that the accuracy is $100\%$ while the errors are $0\%$.
 
 ###### 3.2 (5 points)
 
-Display an overview of the key performance metrics of `full_model`
+Display an overview of the key performance metrics of `full_model'
 
-```R
-... # Insert your code here
+
+```{R}
+predicted <- predict(full_model, newdata = df, type = "response")
+predictedtrue <- ifelse(predicted >= 0.5, 1, 0)
+overview(predictedtrue, df$y)
 ```
 
 ---
@@ -280,14 +398,15 @@ Display an overview of the key performance metrics of `full_model`
 
 Using backward-stepwise logistic regression, find a parsimonious altenative to `full_model`, and print its `overview`
 
-```R
-step_model <- ... # Insert your code here. 
+```{R}
+step_model <- step(full_model, direction = "backward") 
 summary(step_model)
 ```
 
-```R
-step_predictions <- ... # Insert your code here
-overview(step_predictions, df$y)
+```{R}
+step_predictions <- predict(step_model, newdata = df, type = "response")
+step_predictions_true <- ifelse(step_predictions >= 0.5, 1, 0)
+overview(step_predictions_true, df$y)
 ```
 
 ---
@@ -296,29 +415,55 @@ overview(step_predictions, df$y)
 
 Using the `caret` package, setup a **$5$-fold cross-validation** training method using the `caret::trainConrol()` function
 
-```R
-controls <- trainControl() # ... insert your code here
+```{R}
+controls <- trainControl(method = "cv", number = 5)
 ```
 
 Now, using `control`, perform $5$-fold cross validation using `caret::train()` to select the optimal $\lambda$ parameter for LASSO with logistic regression. 
 
 Take the search grid for $\lambda$ to be in $\{ 2^{-20}, 2^{-19.5}, 2^{-19}, \dots, 2^{-0.5}, 2^{0} \}$.
 
-```R
-# Insert your code in the ... region
+
+```{R}
+# I kept getting errors with the x and y so I used a different format
 lasso_fit <- train(
-  x = ...,
-  y = ...,
-  method = ...,
+  y ~ .,
+  data = df,
+  method = 'glmnet',
   trControl = controls, 
   tuneGrid = expand.grid(
-    alpha = ...,
+    alpha = 1,
     lambda = 2^seq(-20, 0, by = 0.5)
     ),
-  family = ...
+  family = 'binomial'
 )
 ```
 Using the information stored in `lasso_fit$results`, plot the results for  cross-validation accuracy vs. $log_2(\lambda)$. Choose the optimal $\lambda^*$, and report your results for this value of $\lambda^*$.
+
+```{R}
+plot(log2(lasso_fit$results$lambda), lasso_fit$results$Accuracy, type = "l")
+```
+
+```{R}
+lambda_max <- lasso_fit$results$lambda[which.max(lasso_fit$results$Accuracy)]
+print(lambda_max)
+```
+
+```{R}
+lasso_fit <- train(
+  y ~ .,
+  data = df,
+  method = 'glmnet',
+  trControl = controls, 
+  tuneGrid = expand.grid(
+    alpha = 1,
+    lambda = lambda_max),
+  family = 'binomial'
+)
+
+lasso_fit$results
+```
+
 
 ---
 
@@ -326,27 +471,27 @@ Using the information stored in `lasso_fit$results`, plot the results for  cross
 
 First, use the `model.matrix()` function to convert the covariates of `df` to a matrix format
 
-```R
+```{R}
 covariate_matrix <- model.matrix(full_model)[, -1]
 ```
 
 Now, initialize the covariates $X$ and the response $y$ as `torch` tensors
 
-```R
-X <- ... # Insert your code here
-y <- ... # Insert your code here
+```{R}
+X <- torch_tensor(covariate_matrix)
+y <- torch_tensor(df$y)
 ```
 
 Using the `torch` library, initialize an `nn_module` which performs logistic regression for this dataset. (Remember that we have 6 different covariates)
 
-```R
+```{R}
 logistic <- nn_module(
   initialize = function() {
-    self$f <- ... # Insert your code here
-    self$g <- ... # Insert your code here
+    self$f <- nn_linear(7L,1L)
+    self$g <- nn_sigmoid()
   },
   forward = function(x) {
-    ... # Insert your code here
+    x %>% self$f() %>% self$g()
   }
 )
 
@@ -355,34 +500,43 @@ f <- logistic()
 
 You can verify that your code is right by checking that the output to the following code is a vector of probabilities:
 
-```R
+```{R}
 f(X)
 ```
 
 
 Now, define the loss function `Loss()` which takes in two tensors `X` and `y` and a function `Fun`, and outputs the **Binary cross Entropy loss** between `Fun(X)` and `y`. 
 
-```R
+```{R}
 Loss <- function(X, y, Fun){
-  ... # Insert our code here
+  y_pred <- Fun(X)
+  
+  eps <- 1e-9
+  -mean(y * log(y_pred + eps) + (1 - y) * log(1 - y_pred + eps))
 }
 ```
 
 Initialize an optimizer using `optim_adam()` and perform $n=1000$ steps of gradient descent in order to fit logistic regression using `torch`.
 
-```R
+```{R}
 f <- logistic()
-optimizer <- optim_adam(...) # Insert your code here
+optimizer <- optim_adam(f$parameters)
+
 
 n <- 1000
-...  # Insert your code for gradient descent here
+for (i in 1:n) {
+  optimizer$zero_grad()
+  loss <- Loss(X, y, f)
+  loss$backward()
+  optimizer$step()
+}
 ```
 
 Using the final, optimized parameters of `f`, compute the compute the predicted results on `X`
 
-```R
+```{R}
 predicted_probabilities <- f(X) %>% as_array()
-torch_predictions <- ... # Insert your code here
+torch_predictions <- ifelse(predicted_probabilities >= 0.5, 1, 0)
 
 overview(torch_predictions, df$y)
 ```
@@ -393,6 +547,14 @@ overview(torch_predictions, df$y)
 
 Create a summary table of the `overview()` summary statistics for each of the $4$ models we have looked at in this assignment, and comment on their relative strengths and drawbacks. 
 
+```{R}
+overview(predictedtrue, df$y)
+overview(step_predictions_true, df$y)
+overview(torch_predictions, df$y)
+lasso_fit$results
+```
+
+With the first model developed, it has around 80% accuracy, however it has a high amount of false negatives. The stepwise model has similar issues to the first model. The LASSO model has similar accuracy and is better overall. The neural network has lower accuracy but more consistent. With more hidden layers it could be stronger.
 
 :::{.hidden unless-format="pdf"}
 \pagebreak
